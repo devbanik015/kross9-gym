@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}Automations & Messaging Engine | Kross 9 Gym{% endblock %}
+
+{% block content %}
+<div class="bg-kross-dark min-h-screen py-10 border-b border-kross-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-kross-border">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-400">
+                    <i data-lucide="zap" class="w-4 h-4"></i>
+                    Intelligent Notification Engine
+                </div>
+                <h1 class="font-heading text-3xl sm:text-4xl font-extrabold uppercase text-white mt-1">
+                    AUTOMATIONS COMMAND CENTER
+                </h1>
+                <p class="text-xs text-slate-400 mt-0.5">Automated WhatsApp & SMS alerts for subscription end, locker expiry, and member retention</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/admin" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Dashboard
+                </a>
+                <a href="/admin/members" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Members CRM
+                </a>
+                <a href="/admin/lockers" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Lockers
+                </a>
+                <button onclick="triggerAutomationAudit()" id="runAuditBtnTop" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all">
+                    <i data-lucide="zap" class="w-4 h-4"></i>
+                    <span>Run Expiry Audit Now</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Engine Status & Simulation Bar -->
+        <div class="glass-card rounded-2xl p-6 border border-orange-500/40 relative overflow-hidden bg-gradient-to-r from-kross-card via-kross-dark to-kross-card glow-orange">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <h3 class="font-heading text-lg font-bold uppercase text-white">Daily Expiry Daemon: Running</h3>
+                    </div>
+                    <p class="text-xs text-slate-300">
+                        The background worker runs automatic scans every hour. It scans every member, compares their subscription end and locker end dates against the current date, generates personalized notification records, and creates 1-click WhatsApp and SMS dispatches.
+                    </p>
+                </div>
+
+                <!-- Simulation Date Picker -->
+                <div class="flex items-center gap-3 shrink-0 bg-kross-black/60 p-3 rounded-xl border border-kross-border">
+                    <div class="text-xs">
+                        <label class="block text-slate-400 text-[10px] uppercase font-semibold">Simulate Target Date</label>
+                        <input type="date" id="simTargetDate" class="px-2 py-1 rounded bg-kross-dark border border-kross-border text-white text-xs font-mono">
+                    </div>
+                    <button onclick="triggerSimulationAudit()" class="px-3.5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-orange-600 hover:bg-orange-500 text-white flex items-center gap-1.5 transition-colors self-end">
+                        <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                        <span>Audit Date</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configured Automation Rules Grid -->
+        <div>
+            <div class="mb-4">
+                <h3 class="font-heading text-xl font-bold uppercase text-white flex items-center gap-2">
+                    <i data-lucide="git-branch" class="w-5 h-5 text-orange-500"></i>
+                    Active Notification Trigger Rules
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5">Pre-configured automated rules fired during daily audit checks</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Rule 1: Sub 3 Days -->
+                <div class="glass-card rounded-2xl p-4 border border-amber-500/30">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px]">T-3 Days</span>
+                        <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Subscription Warning</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Fires 3 days before subscription end. Prompts renewal to maintain continuity.</p>
+                </div>
+
+                <!-- Rule 2: Sub 1 Day -->
+                <div class="glass-card rounded-2xl p-4 border border-orange-500/30">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 font-bold text-[10px]">T-1 Day</span>
+                        <i data-lucide="alert-circle" class="w-4 h-4 text-orange-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Final Day Reminder</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Fires tomorrow before expiry. Informs member that subscription ends in 24 hours.</p>
+                </div>
+
+                <!-- Rule 3: Sub Expired -->
+                <div class="glass-card rounded-2xl p-4 border border-red-500/30">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-bold text-[10px]">T-0 Day</span>
+                        <i data-lucide="user-x" class="w-4 h-4 text-red-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Subscription Expired</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Fires on the exact expiration day. Automatically flags status to expired.</p>
+                </div>
+
+                <!-- Rule 4: Sub Overdue 3d -->
+                <div class="glass-card rounded-2xl p-4 border border-red-500/40">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-bold text-[10px]">T+3 Days</span>
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-red-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Subscription Overdue</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Fires 3 days after expiry. Final notice before account deactivation.</p>
+                </div>
+
+                <!-- Rule 5: Locker 3 Days -->
+                <div class="glass-card rounded-2xl p-4 border border-amber-500/30">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px]">Locker T-3 Days</span>
+                        <i data-lucide="lock" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Locker End Warning</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Alerts member that their locker rental ends in 3 days. Prompts renewal or emptying.</p>
+                </div>
+
+                <!-- Rule 6: Locker 1 Day -->
+                <div class="glass-card rounded-2xl p-4 border border-orange-500/30">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 font-bold text-[10px]">Locker T-1 Day</span>
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-orange-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Locker Final Notice</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Alerts member that tomorrow is the last day for locker reservation.</p>
+                </div>
+
+                <!-- Rule 7: Locker Expired -->
+                <div class="glass-card rounded-2xl p-4 border border-red-500/40">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-bold text-[10px]">Locker T-0 Day</span>
+                        <i data-lucide="unlock" class="w-4 h-4 text-red-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Locker Expired (Clearance)</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Fires when locker rental ends today. Warns member of upcoming locker clearing.</p>
+                </div>
+
+                <!-- Rule 8: Welcome -->
+                <div class="glass-card rounded-2xl p-4 border border-emerald-500/30">
+                    <div class="flex items-center justify-between text-xs mb-2">
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">Onboarding</span>
+                        <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <h4 class="font-heading text-base font-bold text-white uppercase">Welcome Alert</h4>
+                    <p class="text-[11px] text-slate-400 mt-1">Instantly sent on member registration with hours, dates, and gym motivation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customizable Message Templates Editor -->
+        <div class="glass-card rounded-2xl p-6 border border-kross-border space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-kross-border">
+                <div>
+                    <h3 class="font-heading text-xl font-bold uppercase text-white flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-5 h-5 text-orange-500"></i>
+                        Message Template Customizer
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Customize the message copy sent to members for each automated event</p>
+                </div>
+
+                <!-- Tokens Legend -->
+                <div class="text-[11px] text-slate-400 flex flex-wrap gap-1.5">
+                    <span class="px-2 py-0.5 rounded bg-kross-black border border-kross-border font-mono text-orange-400 font-bold">{% raw %}{{name}}{% endraw %}</span>
+                    <span class="px-2 py-0.5 rounded bg-kross-black border border-kross-border font-mono text-orange-400 font-bold">{% raw %}{{plan}}{% endraw %}</span>
+                    <span class="px-2 py-0.5 rounded bg-kross-black border border-kross-border font-mono text-orange-400 font-bold">{% raw %}{{end_date}}{% endraw %}</span>
+                    <span class="px-2 py-0.5 rounded bg-kross-black border border-kross-border font-mono text-orange-400 font-bold">{% raw %}{{locker_number}}{% endraw %}</span>
+                    <span class="px-2 py-0.5 rounded bg-kross-black border border-kross-border font-mono text-orange-400 font-bold">{% raw %}{{gym_phone}}{% endraw %}</span>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                {% for t in templates %}
+                <div class="p-4 rounded-xl bg-kross-dark border border-kross-border space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="font-heading text-sm font-bold text-white uppercase">{{ t.title }}</span>
+                            <span class="text-[10px] text-slate-400 font-mono ml-2">({{ t.trigger_type }})</span>
+                        </div>
+                        <button onclick="saveTemplate('{{ t.trigger_type }}')" class="px-3 py-1 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-[11px] font-bold uppercase transition-colors">
+                            Save Changes
+                        </button>
+                    </div>
+                    <textarea id="tpl_{{ t.trigger_type }}" rows="2" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-xs text-slate-200 focus:outline-none focus:border-orange-500 font-mono">{{ t.template_text }}</textarea>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Notification Audit Log Table -->
+        <div class="glass-card rounded-2xl p-6 border border-kross-border">
+            <div class="flex items-center justify-between pb-4 border-b border-kross-border mb-4">
+                <div>
+                    <h3 class="font-heading text-xl font-bold uppercase text-white flex items-center gap-2">
+                        <i data-lucide="history" class="w-5 h-5 text-orange-500"></i>
+                        Dispatched Notifications Audit Log
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Real-time log of automated messages with 1-click WhatsApp opening links</p>
+                </div>
+                <span class="text-xs text-slate-400 font-mono">{{ logs|length }} Logs</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-kross-dark text-slate-400 uppercase tracking-wider border-b border-kross-border">
+                        <tr>
+                            <th class="py-3 px-4">Time</th>
+                            <th class="py-3 px-4">Recipient</th>
+                            <th class="py-3 px-4">Channel</th>
+                            <th class="py-3 px-4">Trigger Event</th>
+                            <th class="py-3 px-4">Message Snippet</th>
+                            <th class="py-3 px-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-kross-border/60">
+                        {% for l in logs %}
+                        <tr class="hover:bg-kross-dark/50 transition-colors">
+                            <td class="py-3 px-4 font-mono text-slate-400 whitespace-nowrap">
+                                {{ l.created_at }}
+                            </td>
+                            <td class="py-3 px-4 whitespace-nowrap">
+                                <span class="font-bold text-white block">{{ l.member_name }}</span>
+                                <span class="font-mono text-slate-400 text-[10px]">{{ l.recipient_phone }}</span>
+                            </td>
+                            <td class="py-3 px-4 whitespace-nowrap">
+                                <span class="px-2 py-0.5 rounded font-bold text-[10px] uppercase {% if l.channel == 'whatsapp' %}bg-green-500/20 text-green-400 border border-green-500/30{% else %}bg-blue-500/20 text-blue-400 border border-blue-500/30{% endif %}">
+                                    {{ l.channel }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 font-mono text-orange-400 whitespace-nowrap">
+                                {{ l.trigger_type }}
+                            </td>
+                            <td class="py-3 px-4 text-slate-300 max-w-xs truncate" title="{{ l.message_text }}">
+                                "{{ l.message_text }}"
+                            </td>
+                            <td class="py-3 px-4 text-right whitespace-nowrap">
+                                {% if l.channel == 'whatsapp' %}
+                                <a href="https://wa.me/91{{ l.recipient_phone|replace(' ', '')|replace('+91', '') }}?text={{ l.message_text|urlencode }}" target="_blank" class="px-2.5 py-1 rounded-lg bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-500/30 font-semibold inline-flex items-center gap-1">
+                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                    <span>Open WhatsApp</span>
+                                </a>
+                                {% else %}
+                                <span class="text-slate-500 text-[10px]">SMS Dispatched</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "components/quick_message_modal.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+<script>
+    async function saveTemplate(triggerType) {
+        const text = document.getElementById(`tpl_${triggerType}`).value;
+        try {
+            const res = await fetch(`/api/templates/${triggerType}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ template_text: text })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(`Template '${triggerType}' updated successfully!`, 'success');
+            } else {
+                showToast(data.error || 'Failed to update template', 'error');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('Error updating template', 'error');
+        }
+    }
+
+    async function triggerSimulationAudit() {
+        const targetDate = document.getElementById('simTargetDate').value;
+        if (!targetDate) {
+            alert('Please pick a target date to simulate.');
+            return;
+        }
+        await triggerAutomationAudit(targetDate);
+    }
+</script>
+{% endblock %}

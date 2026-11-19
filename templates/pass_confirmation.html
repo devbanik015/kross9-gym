@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Your Kross 9 Free 1-Day Pass | Cooch Behar{% endblock %}
+
+{% block content %}
+<div class="bg-kross-black min-h-[80vh] py-16 flex items-center justify-center">
+    <div class="max-w-xl w-full mx-4">
+
+        <!-- Back to home -->
+        <div class="mb-6 no-print">
+            <a href="/" class="text-xs text-orange-400 font-bold hover:underline inline-flex items-center gap-1.5">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Back to Kross 9 Gym Home</span>
+            </a>
+        </div>
+
+        <!-- The Pass Card -->
+        <div class="glass-card rounded-3xl p-8 border-2 border-orange-500/60 relative overflow-hidden shadow-2xl bg-gradient-to-b from-kross-card via-kross-dark to-kross-card glow-orange print-card">
+            
+            <!-- Top Pass Header -->
+            <div class="flex items-center justify-between pb-6 border-b border-kross-border">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-orange-600 flex items-center justify-center font-heading text-2xl font-black text-white shadow-lg">
+                        K9
+                    </div>
+                    <div>
+                        <h2 class="font-heading text-2xl font-bold uppercase text-white tracking-wider">
+                            KROSS <span class="text-orange-500">9</span> GYM
+                        </h2>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest block">
+                            OFFICIAL 1-DAY TRIAL PASS
+                        </span>
+                    </div>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    PASS VERIFIED
+                </span>
+            </div>
+
+            <!-- Pass Body -->
+            <div class="py-6 space-y-4">
+                <div class="bg-kross-black/80 rounded-2xl p-5 border border-kross-border text-center space-y-1">
+                    <span class="text-[10px] text-slate-400 uppercase tracking-widest block font-semibold">Authorized Pass Code</span>
+                    <span class="font-mono text-3xl font-extrabold text-orange-400 tracking-wider block">{{ trial_pass.pass_code }}</span>
+                    <span class="text-[10px] text-slate-400 block mt-1">Show this code at the reception desk on arrival</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div class="p-3.5 rounded-xl bg-kross-black/40 border border-kross-border">
+                        <span class="text-slate-400 block mb-0.5">Guest Athlete</span>
+                        <span class="font-bold text-white text-sm block">{{ trial_pass.name }}</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-kross-black/40 border border-kross-border">
+                        <span class="text-slate-400 block mb-0.5">Contact Number</span>
+                        <span class="font-mono font-bold text-white text-sm block">{{ trial_pass.phone }}</span>
+                    </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-kross-black/40 border border-kross-border text-xs flex items-center justify-between">
+                    <div>
+                        <span class="text-slate-400 block mb-0.5">Scheduled Workout Date</span>
+                        <span class="font-bold text-orange-400 text-sm font-mono block">{{ trial_pass.workout_date }}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-slate-400 block mb-0.5">Permitted Entry</span>
+                        <span class="font-semibold text-white">6:00 AM – 10:00 PM</span>
+                    </div>
+                </div>
+
+                <!-- Facility info -->
+                <div class="pt-2 text-xs text-slate-400 space-y-1 border-t border-kross-border/40">
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-orange-500 shrink-0 mt-0.5"></i>
+                        <span>{{ gym_address }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="phone" class="w-4 h-4 text-orange-500 shrink-0"></i>
+                        <span>Help Desk: {{ gym_phone }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pass Actions -->
+            <div class="pt-4 border-t border-kross-border flex flex-col sm:flex-row gap-3 no-print">
+                <button onclick="window.print()" class="flex-1 py-3 rounded-xl font-heading text-sm font-bold uppercase tracking-wider text-slate-200 bg-kross-card hover:bg-slate-800 border border-kross-border flex items-center justify-center gap-2 transition-colors">
+                    <i data-lucide="printer" class="w-4 h-4 text-orange-400"></i>
+                    <span>Print / Save PDF</span>
+                </button>
+                <a href="https://wa.me/{{ gym_phone_raw }}?text=Hi%20Kross%209%20Gym!%20I%20have%20booked%20my%201-Day%20Free%20Trial%20Pass%20({{ trial_pass.pass_code }})%20for%20{{ trial_pass.workout_date }}.%20Looking%20forward%20to%20working%20out!" target="_blank" class="flex-1 py-3 rounded-xl font-heading text-sm font-bold uppercase tracking-wider text-white bg-green-600 hover:bg-green-500 flex items-center justify-center gap-2 shadow-lg shadow-green-600/25 transition-all">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>Confirm via WhatsApp</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

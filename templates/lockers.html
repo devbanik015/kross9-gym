@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}Locker Bay Management | Kross 9 Gym{% endblock %}
+
+{% block content %}
+<div class="bg-kross-dark min-h-screen py-10 border-b border-kross-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-kross-border">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-400">
+                    <i data-lucide="lock" class="w-4 h-4"></i>
+                    Private Locker Bay & Security
+                </div>
+                <h1 class="font-heading text-3xl sm:text-4xl font-extrabold uppercase text-white mt-1">
+                    LOCKER ALLOCATION BAY
+                </h1>
+                <p class="text-xs text-slate-400 mt-0.5">30 secure private lockers with automated WhatsApp end-of-term warnings</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/admin" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Dashboard
+                </a>
+                <a href="/admin/members" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Members CRM
+                </a>
+                <a href="/admin/automations" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Automations & Logs
+                </a>
+            </div>
+        </div>
+
+        <!-- Locker Legend Bar -->
+        <div class="glass-card rounded-2xl p-4 border border-kross-border flex flex-wrap items-center justify-between gap-4 text-xs">
+            <div class="flex flex-wrap items-center gap-6">
+                <span class="flex items-center gap-2 text-slate-300">
+                    <span class="w-3.5 h-3.5 rounded-md bg-emerald-500/20 border border-emerald-500"></span>
+                    <span>Assigned & Active</span>
+                </span>
+                <span class="flex items-center gap-2 text-slate-300">
+                    <span class="w-3.5 h-3.5 rounded-md bg-amber-500/20 border border-amber-500 animate-pulse"></span>
+                    <span>Expiring Soon (&le; 5 days)</span>
+                </span>
+                <span class="flex items-center gap-2 text-slate-300">
+                    <span class="w-3.5 h-3.5 rounded-md bg-red-500/20 border border-red-500"></span>
+                    <span>Expired / Clearance Alert</span>
+                </span>
+                <span class="flex items-center gap-2 text-slate-300">
+                    <span class="w-3.5 h-3.5 rounded-md bg-kross-black border border-slate-700"></span>
+                    <span>Available For Rent</span>
+                </span>
+            </div>
+            <div class="text-slate-400 font-medium">
+                Rental fee: ₹400/month or free on Annual plans.
+            </div>
+        </div>
+
+        <!-- 30 Lockers Grid (Visual Layout) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
+            {% for l in lockers %}
+            <div class="rounded-2xl p-4 flex flex-col justify-between transition-all duration-200 border {% if l.status == 'assigned' %}bg-kross-card/90 border-orange-500/40{% else %}bg-kross-black/60 border-kross-border hover:border-slate-600{% endif %}">
+                <!-- Locker Header -->
+                <div class="flex items-center justify-between pb-2 border-b border-kross-border/40">
+                    <span class="font-heading text-lg font-bold text-white">#{{ l.locker_number }}</span>
+                    {% if l.status == 'assigned' %}
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    {% else %}
+                        <span class="w-2 h-2 rounded-full bg-slate-600"></span>
+                    {% endif %}
+                </div>
+
+                <!-- Body Info -->
+                <div class="py-3 text-xs space-y-1 min-h-[70px]">
+                    {% if l.status == 'assigned' %}
+                        <span class="font-bold text-white block truncate" title="{{ l.member_name }}">{{ l.member_name }}</span>
+                        <span class="font-mono text-[11px] text-slate-400 block">{{ l.member_phone }}</span>
+                        <div class="text-[10px] text-orange-400 font-mono mt-1">
+                            Ends: {{ l.end_date }}
+                        </div>
+                    {% else %}
+                        <div class="h-full flex flex-col items-center justify-center text-slate-500 py-2">
+                            <i data-lucide="unlock" class="w-5 h-5 mb-1 stroke-1"></i>
+                            <span class="text-[11px]">Available</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Footer Action -->
+                <div class="pt-2 border-t border-kross-border/40">
+                    {% if l.status == 'assigned' %}
+                        <div class="grid grid-cols-2 gap-1.5">
+                            <button onclick="openQuickMessageModal({{ l.member_id }}, '{{ l.member_name }}', '{{ l.member_phone }}', 'Gym Locker', '{{ l.end_date }}', '{{ l.locker_number }}', '{{ l.end_date }}')" title="WhatsApp Expiry Alert" class="py-1 px-2 rounded-lg bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-500/30 text-[10px] font-bold flex items-center justify-center gap-1">
+                                <i data-lucide="message-circle" class="w-3 h-3"></i>
+                                <span>Alert</span>
+                            </button>
+                            <button onclick="releaseLocker({{ l.locker_number }})" title="Release Locker" class="py-1 px-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-[10px] font-bold flex items-center justify-center gap-1">
+                                <i data-lucide="log-out" class="w-3 h-3"></i>
+                                <span>Free</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <button onclick="openAssignLockerModal({{ l.locker_number }})" class="w-full py-1.5 rounded-lg bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 border border-orange-500/30 text-[11px] font-bold flex items-center justify-center gap-1 transition-colors">
+                            <i data-lucide="user-plus" class="w-3 h-3"></i>
+                            <span>Assign</span>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<!-- Assign Locker Modal -->
+<div id="assignLockerModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full rounded-2xl p-6 border border-kross-border bg-kross-dark space-y-4">
+        <div class="flex items-center justify-between border-b border-kross-border pb-3">
+            <h3 class="font-heading text-lg font-bold uppercase text-white flex items-center gap-2">
+                <i data-lucide="key" class="w-5 h-5 text-orange-500"></i>
+                Assign Locker <span id="assignLockerTitle">#--</span>
+            </h3>
+            <button onclick="closeAssignLockerModal()" class="text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form id="assignLockerForm" onsubmit="submitAssignLocker(event)" class="space-y-3 text-xs">
+            <input type="hidden" id="assignLockerNumber">
+            
+            <div>
+                <label class="block text-slate-300 font-semibold mb-1">Select Member *</label>
+                <select id="assignMemberId" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                    <option value="">-- Choose Member --</option>
+                    {% for m in members %}
+                    <option value="{{ m.id }}">{{ m.name }} ({{ m.phone }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-slate-300 font-semibold mb-1">Locker Rental End Date *</label>
+                <input type="date" id="assignEndDate" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="w-full py-3 rounded-xl font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 shadow-lg shadow-orange-500/25 transition-all">
+                    Confirm Locker Assignment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include "components/quick_message_modal.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+<script>
+    function openAssignLockerModal(lockerNum) {
+        document.getElementById('assignLockerNumber').value = lockerNum;
+        document.getElementById('assignLockerTitle').innerText = `#${lockerNum}`;
+        const defaultDate = new Date();
+        defaultDate.setMonth(defaultDate.getMonth() + 1);
+        document.getElementById('assignEndDate').value = defaultDate.toISOString().split('T')[0];
+        document.getElementById('assignLockerModal').classList.remove('hidden');
+    }
+
+    function closeAssignLockerModal() {
+        document.getElementById('assignLockerModal').classList.add('hidden');
+    }
+
+    async function submitAssignLocker(e) {
+        e.preventDefault();
+        const payload = {
+            locker_number: document.getElementById('assignLockerNumber').value,
+            member_id: document.getElementById('assignMemberId').value,
+            end_date: document.getElementById('assignEndDate').value
+        };
+
+        try {
+            const res = await fetch('/api/lockers/assign', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(data.message, 'success');
+                setTimeout(() => window.location.reload(), 600);
+            } else {
+                showToast(data.error || 'Failed to assign locker', 'error');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('Network error assigning locker', 'error');
+        }
+    }
+
+    async function releaseLocker(lockerNum) {
+        if (!confirm(`Are you sure you want to release Locker #${lockerNum}? The member will be unlinked and the locker marked available.`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/lockers/release', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ locker_number: lockerNum })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(data.message, 'success');
+                setTimeout(() => window.location.reload(), 600);
+            } else {
+                showToast(data.error || 'Failed to release locker', 'error');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('Network error releasing locker', 'error');
+        }
+    }
+</script>
+{% endblock %}

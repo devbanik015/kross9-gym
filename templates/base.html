@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ gym_name }} | {{ gym_tagline }} | Cooch Behar{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        kross: {
+                            black: '#0a0b0e',
+                            dark: '#12141a',
+                            card: '#181b24',
+                            border: '#262a36',
+                            red: '#ef4444',
+                            orange: '#f97316',
+                            glow: '#ff4d00',
+                            accent: '#ff5e00',
+                            gray: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        heading: ['Oswald', 'Impact', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-kross-black text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-kross-orange selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-red-600 via-orange-600 to-amber-600 text-white text-xs font-semibold py-1.5 px-4 text-center tracking-wide flex items-center justify-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-white animate-pulse"></span>
+        <span>KROSS 9 GYM COOCH BEHAR &bull; Mon-Sat 6:00 AM – 10:00 PM &bull; Call: {{ gym_phone }} &bull; Claim Your 1-Day Free Pass Today!</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-kross-black/90 border-b border-kross-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
+                    <span class="font-heading text-2xl font-black text-white italic tracking-tighter">K9</span>
+                </div>
+                <div>
+                    <span class="font-heading text-2xl font-bold tracking-wider text-white uppercase block leading-none">
+                        KROSS <span class="text-orange-500">9</span>
+                    </span>
+                    <span class="text-[10px] tracking-widest text-slate-400 uppercase font-semibold block mt-0.5">
+                        GYM &bull; COOCH BEHAR
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="/#about" class="hover:text-orange-400 transition-colors">About</a>
+                <a href="/#facilities" class="hover:text-orange-400 transition-colors">Facilities</a>
+                <a href="/#programs" class="hover:text-orange-400 transition-colors">Programs</a>
+                <a href="/#pricing" class="hover:text-orange-400 transition-colors">Plans & Pricing</a>
+                <a href="/#schedule" class="hover:text-orange-400 transition-colors">Schedule</a>
+                <a href="/#calculator" class="hover:text-orange-400 transition-colors">Fitness Tools</a>
+                <a href="/#contact" class="hover:text-orange-400 transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action CTAs -->
+            <div class="flex items-center gap-3">
+                <a href="/admin" class="text-xs font-semibold px-3 py-2 rounded-lg bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border flex items-center gap-1.5 transition-all">
+                    <i data-lucide="shield" class="w-3.5 h-3.5 text-orange-400"></i>
+                    <span>Staff Portal</span>
+                </a>
+                <a href="/#free-pass" class="text-xs sm:text-sm font-bold px-4 py-2.5 rounded-lg bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all hover:scale-105">
+                    <i data-lucide="ticket" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Get Free Pass</span>
+                    <span class="sm:hidden">Pass</span>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-300 hover:text-white" aria-label="Toggle Navigation">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-kross-dark border-b border-kross-border px-6 py-4 space-y-3">
+            <a href="/#about" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">About</a>
+            <a href="/#facilities" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">Facilities</a>
+            <a href="/#programs" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">Programs</a>
+            <a href="/#pricing" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">Plans & Pricing</a>
+            <a href="/#schedule" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">Schedule</a>
+            <a href="/#calculator" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">Fitness Calculator</a>
+            <a href="/#contact" class="block text-sm py-1.5 text-slate-300 hover:text-orange-400">Location & Contact</a>
+            <div class="pt-2 border-t border-kross-border flex gap-3">
+                <a href="/admin" class="flex-1 text-center py-2 text-xs font-semibold rounded bg-kross-card text-slate-300 border border-kross-border">Staff Portal</a>
+                <a href="/#free-pass" class="flex-1 text-center py-2 text-xs font-bold rounded bg-orange-600 text-white">Free Pass</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Block -->
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-kross-dark border-t border-kross-border pt-16 pb-10 text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-kross-border/60">
+                <!-- Col 1: About Gym -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-orange-500 flex items-center justify-center font-heading font-black text-xl text-white">
+                            K9
+                        </div>
+                        <span class="font-heading text-xl font-bold tracking-wider text-white uppercase">
+                            KROSS <span class="text-orange-500">9</span> GYM
+                        </span>
+                    </div>
+                    <p class="text-sm leading-relaxed text-slate-400">
+                        Cooch Behar's premier strength, conditioning, and transformation powerhouse. Modern equipment, certified coaches, dedicated lockers, and proven results.
+                    </p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <a href="https://wa.me/{{ gym_phone_raw }}" target="_blank" class="w-9 h-9 rounded-lg bg-kross-card hover:bg-green-600 hover:text-white flex items-center justify-center text-slate-300 border border-kross-border transition-colors">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        </a>
+                        <a href="tel:{{ gym_phone_raw }}" class="w-9 h-9 rounded-lg bg-kross-card hover:bg-orange-600 hover:text-white flex items-center justify-center text-slate-300 border border-kross-border transition-colors">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                        </a>
+                        <a href="{{ gym_map_url }}" target="_blank" class="w-9 h-9 rounded-lg bg-kross-card hover:bg-red-600 hover:text-white flex items-center justify-center text-slate-300 border border-kross-border transition-colors">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h3 class="font-heading text-lg font-semibold text-white tracking-wider uppercase mb-4">Quick Navigation</h3>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="/#about" class="hover:text-orange-400 transition-colors">About Our Facility</a></li>
+                        <li><a href="/#programs" class="hover:text-orange-400 transition-colors">Strength & Functional Training</a></li>
+                        <li><a href="/#pricing" class="hover:text-orange-400 transition-colors">Membership Packages</a></li>
+                        <li><a href="/#calculator" class="hover:text-orange-400 transition-colors">BMI & Target Calorie Calculator</a></li>
+                        <li><a href="/#free-pass" class="hover:text-orange-400 transition-colors">Book 1-Day Trial Pass</a></li>
+                        <li><a href="/admin" class="hover:text-orange-400 transition-colors">Staff & Automation Portal</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Hours & Schedule -->
+                <div>
+                    <h3 class="font-heading text-lg font-semibold text-white tracking-wider uppercase mb-4">Gym Hours</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between items-center py-1.5 border-b border-kross-border/40">
+                            <span>Monday – Saturday</span>
+                            <span class="text-white font-semibold">{{ gym_hours_weekday }}</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1.5 border-b border-kross-border/40">
+                            <span>Sunday</span>
+                            <span class="text-red-400 font-semibold">{{ gym_hours_sunday }}</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1.5 border-b border-kross-border/40">
+                            <span>Morning Session</span>
+                            <span class="text-orange-400 font-semibold">06:00 AM – 11:30 AM</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1.5">
+                            <span>Evening Session</span>
+                            <span class="text-orange-400 font-semibold">04:30 PM – 10:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 4: Location & Contact -->
+                <div>
+                    <h3 class="font-heading text-lg font-semibold text-white tracking-wider uppercase mb-4">Location & Contact</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-orange-500 shrink-0 mt-0.5"></i>
+                            <span>{{ gym_address }}</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i data-lucide="phone" class="w-4 h-4 text-orange-500 shrink-0"></i>
+                            <a href="tel:{{ gym_phone_raw }}" class="hover:text-white font-semibold text-slate-200">{{ gym_phone }}</a>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-green-500 shrink-0"></i>
+                            <a href="https://wa.me/{{ gym_phone_raw }}" target="_blank" class="hover:text-green-400 text-slate-200">WhatsApp Chat</a>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i data-lucide="mail" class="w-4 h-4 text-orange-500 shrink-0"></i>
+                            <span>{{ gym_email }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Subfooter -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; {{ current_year }} {{ gym_name }} Cooch Behar. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <span class="flex items-center gap-1.5 text-slate-400">
+                        <i data-lucide="zap" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Automated Member & Locker Expiry Engine Active
+                    </span>
+                    <a href="/admin/automations" class="hover:text-orange-400 transition-colors">Automations Console</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Toast Container -->
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-lg shadow-xl text-sm font-semibold flex items-center gap-3 transition-all duration-300 transform translate-y-4 opacity-0 ${
+                type === 'success' ? 'bg-emerald-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 'bg-slate-800 text-white border border-slate-700'
+            }`;
+            toast.innerHTML = `
+                <i data-lucide="${type === 'success' ? 'check-circle' : type === 'error' ? 'alert-triangle' : 'info'}" class="w-4 h-4 shrink-0"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

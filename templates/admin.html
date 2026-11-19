@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Kross 9 Admin & Automations Command Center{% endblock %}
+
+{% block content %}
+<div class="bg-kross-dark min-h-screen py-10 border-b border-kross-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <!-- Top Header & Subnav -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-kross-border">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-400">
+                    <i data-lucide="shield" class="w-4 h-4"></i>
+                    Staff Management Console
+                </div>
+                <h1 class="font-heading text-3xl sm:text-4xl font-extrabold uppercase text-white mt-1">
+                    KROSS 9 COMMAND CENTER
+                </h1>
+                <p class="text-xs text-slate-400 mt-0.5">Automated subscription expiry, locker management & member retention</p>
+            </div>
+
+            <!-- Portal Nav & Automation Run CTA -->
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/admin" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-orange-600 text-white shadow-md">
+                    Overview
+                </a>
+                <a href="/admin/members" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Members CRM
+                </a>
+                <a href="/admin/lockers" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Locker Bay ({{ occupied_lockers }}/{{ total_lockers }})
+                </a>
+                <a href="/admin/automations" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Automations & Logs
+                </a>
+                <button onclick="triggerAutomationAudit()" id="runAuditBtn" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all">
+                    <i data-lucide="zap" class="w-4 h-4"></i>
+                    <span>Run Automation Audit Now</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- KPI Metric Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            <!-- Active Members -->
+            <div class="glass-card rounded-2xl p-5 border border-kross-border">
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                    <span>Active Subscriptions</span>
+                    <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                <div class="font-heading text-3xl font-extrabold text-white">{{ active_members }}</div>
+                <div class="text-[11px] text-emerald-400 font-medium mt-1">Currently enrolled</div>
+            </div>
+
+            <!-- Expiring Within 7 Days -->
+            <div class="glass-card rounded-2xl p-5 border border-amber-500/40 bg-amber-950/10">
+                <div class="flex items-center justify-between text-xs text-amber-300 mb-2">
+                    <span>Expiring (7 Days)</span>
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+                </div>
+                <div class="font-heading text-3xl font-extrabold text-amber-400">{{ expiring_soon }}</div>
+                <div class="text-[11px] text-amber-300 font-medium mt-1">Scheduled for reminders</div>
+            </div>
+
+            <!-- Expired Subscriptions -->
+            <div class="glass-card rounded-2xl p-5 border border-red-500/40 bg-red-950/10">
+                <div class="flex items-center justify-between text-xs text-red-300 mb-2">
+                    <span>Expired Accounts</span>
+                    <i data-lucide="user-x" class="w-4 h-4 text-red-400"></i>
+                </div>
+                <div class="font-heading text-3xl font-extrabold text-red-400">{{ expired_count }}</div>
+                <div class="text-[11px] text-red-300 font-medium mt-1">Needs re-activation</div>
+            </div>
+
+            <!-- Locker Occupancy -->
+            <div class="glass-card rounded-2xl p-5 border border-kross-border">
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                    <span>Locker Occupancy</span>
+                    <i data-lucide="lock" class="w-4 h-4 text-orange-400"></i>
+                </div>
+                <div class="font-heading text-3xl font-extrabold text-white">{{ occupied_lockers }} <span class="text-xs text-slate-400 font-normal">/ {{ total_lockers }}</span></div>
+                <div class="text-[11px] text-slate-400 font-medium mt-1">{{ total_lockers - occupied_lockers }} available for rent</div>
+            </div>
+
+            <!-- Messages Sent Today -->
+            <div class="glass-card rounded-2xl p-5 border border-emerald-500/40 bg-emerald-950/10">
+                <div class="flex items-center justify-between text-xs text-emerald-300 mb-2">
+                    <span>Automations Dispatched</span>
+                    <i data-lucide="send" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                <div class="font-heading text-3xl font-extrabold text-emerald-400">{{ messages_today }}</div>
+                <div class="text-[11px] text-emerald-300 font-medium mt-1">Today's audit notifications</div>
+            </div>
+        </div>
+
+        <!-- Priority Members Attention List -->
+        <div class="glass-card rounded-2xl p-6 border border-kross-border">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-kross-border mb-4">
+                <div>
+                    <h3 class="font-heading text-xl font-bold uppercase text-white flex items-center gap-2">
+                        <i data-lucide="bell-ring" class="w-5 h-5 text-orange-500"></i>
+                        Priority Attention List (Expiring Subscriptions & Lockers)
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Members whose memberships or lockers require renewal follow-up</p>
+                </div>
+                <a href="/admin/members" class="text-xs font-semibold text-orange-400 hover:underline flex items-center gap-1">
+                    View Full Directory &rarr;
+                </a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-kross-dark text-slate-400 uppercase tracking-wider border-b border-kross-border">
+                        <tr>
+                            <th class="py-3 px-4">Member</th>
+                            <th class="py-3 px-4">Contact</th>
+                            <th class="py-3 px-4">Plan</th>
+                            <th class="py-3 px-4">Subscription End</th>
+                            <th class="py-3 px-4">Locker Status</th>
+                            <th class="py-3 px-4 text-right">Quick Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-kross-border/60">
+                        {% for m in priority_members %}
+                        <tr class="hover:bg-kross-dark/50 transition-colors">
+                            <td class="py-3 px-4">
+                                <span class="font-bold text-white block">{{ m.name }}</span>
+                                <span class="text-[10px] text-slate-400">ID: #{{ m.id }}</span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="font-mono text-slate-200">{{ m.phone }}</span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold">{{ m.plan_name }}</span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="font-mono font-semibold {% if m.status == 'expired' %}text-red-400{% else %}text-amber-400{% endif %}">
+                                    {{ m.end_date }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                {% if m.locker_number %}
+                                <div class="flex items-center gap-1.5">
+                                    <span class="px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 border border-orange-500/30 font-bold">
+                                        Locker #{{ m.locker_number }}
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-mono">End: {{ m.locker_end_date }}</span>
+                                </div>
+                                {% else %}
+                                <span class="text-slate-500">None</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-3 px-4 text-right">
+                                <div class="inline-flex items-center gap-2">
+                                    <button onclick="openQuickMessageModal({{ m.id }}, '{{ m.name }}', '{{ m.phone }}', '{{ m.plan_name }}', '{{ m.end_date }}', '{{ m.locker_number }}', '{{ m.locker_end_date }}')" class="px-2.5 py-1.5 rounded-lg bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-500/30 font-semibold flex items-center gap-1">
+                                        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                        <span>WhatsApp</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Notification Logs -->
+        <div class="glass-card rounded-2xl p-6 border border-kross-border">
+            <div class="flex items-center justify-between pb-4 border-b border-kross-border mb-4">
+                <div>
+                    <h3 class="font-heading text-xl font-bold uppercase text-white flex items-center gap-2">
+                        <i data-lucide="history" class="w-5 h-5 text-orange-500"></i>
+                        Recent Notification Audit Stream
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Automated messages dispatched for subscription and locker renewals</p>
+                </div>
+                <a href="/admin/automations" class="text-xs font-semibold text-orange-400 hover:underline">
+                    View Complete Audit &rarr;
+                </a>
+            </div>
+
+            <div class="space-y-3">
+                {% if recent_logs %}
+                    {% for l in recent_logs %}
+                    <div class="p-3.5 rounded-xl bg-kross-dark border border-kross-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded font-bold text-[10px] uppercase {% if l.channel == 'whatsapp' %}bg-green-500/20 text-green-400 border border-green-500/30{% else %}bg-blue-500/20 text-blue-400 border border-blue-500/30{% endif %}">
+                                    {{ l.channel }}
+                                </span>
+                                <span class="font-bold text-white">{{ l.member_name }}</span>
+                                <span class="text-slate-400 font-mono">({{ l.recipient_phone }})</span>
+                                <span class="text-slate-500">&bull;</span>
+                                <span class="text-orange-400 font-mono">{{ l.trigger_type }}</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px] leading-relaxed line-clamp-2">
+                                "{{ l.message_text }}"
+                            </p>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="text-[10px] text-slate-400 block">{{ l.created_at }}</span>
+                            <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+                                Dispatched
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-8 text-slate-500 text-xs">
+                        No notifications logged yet. Click "Run Automation Audit Now" to evaluate members!
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "components/quick_message_modal.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

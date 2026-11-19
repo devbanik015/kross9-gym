@@ -1,0 +1,52 @@
+<!-- Quick Message Modal Component -->
+<div id="quickMessageModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full rounded-2xl p-6 border border-kross-border bg-kross-dark space-y-4">
+        <div class="flex items-center justify-between border-b border-kross-border pb-3">
+            <h3 class="font-heading text-lg font-bold uppercase text-white flex items-center gap-2">
+                <i data-lucide="message-square" class="w-4 h-4 text-orange-400"></i>
+                Send Direct Message
+            </h3>
+            <button onclick="closeQuickMessageModal()" class="text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="space-y-3 text-xs">
+            <div>
+                <span class="text-slate-400 block mb-1">Recipient</span>
+                <div class="font-bold text-white text-sm" id="modalMemberName">--</div>
+                <div class="font-mono text-slate-400 text-xs" id="modalMemberPhone">--</div>
+            </div>
+
+            <div>
+                <label class="block text-slate-300 font-semibold mb-1">Select Message Template</label>
+                <select id="modalTemplateSelect" onchange="populateModalTemplate()" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                    <option value="custom">Custom Message</option>
+                    <option value="sub_warning_3d">Subscription Expiring (3 Days)</option>
+                    <option value="sub_warning_1d">Subscription Expiring Tomorrow</option>
+                    <option value="sub_expired">Subscription Expired Today</option>
+                    <option value="sub_overdue_3d">Subscription Overdue (3 Days)</option>
+                    <option value="locker_warning_3d">Locker Rental Expiring (3 Days)</option>
+                    <option value="locker_expired">Locker Rental Expired Today</option>
+                    <option value="welcome_member">Welcome Onboarding Message</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-slate-300 font-semibold mb-1">Message Content</label>
+                <textarea id="modalMessageText" rows="4" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs focus:outline-none focus:border-orange-500 font-sans"></textarea>
+            </div>
+
+            <div class="flex items-center gap-3 pt-2">
+                <button onclick="dispatchModalMessage('whatsapp')" class="flex-1 py-2.5 rounded-xl font-bold uppercase tracking-wider text-white bg-green-600 hover:bg-green-500 flex items-center justify-center gap-1.5 transition-colors">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>Open in WhatsApp</span>
+                </button>
+                <button onclick="dispatchModalMessage('sms')" class="flex-1 py-2.5 rounded-xl font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 flex items-center justify-center gap-1.5 transition-colors">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>Send SMS (Gateway)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
