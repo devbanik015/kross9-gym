@@ -1,0 +1,991 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="relative overflow-hidden pt-12 pb-24 md:pt-20 md:pb-32 bg-gradient-to-b from-kross-black via-kross-dark to-kross-black hero-pattern">
+    <!-- Ambient Radial Glows -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/3 left-10 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Column: Copy & CTAs -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <!-- Status & Location Pill -->
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-kross-card border border-kross-border text-xs font-semibold text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>COOCH BEHAR'S TOP RATED FITNESS DESTINATION</span>
+                    <span class="text-slate-600">&bull;</span>
+                    <span class="text-orange-400">★ 4.9 Google Rating</span>
+                </div>
+
+                <!-- Main Punchy Headline -->
+                <h1 class="font-heading text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-none">
+                    UNLEASH YOUR <br>
+                    <span class="gradient-text-fire">ULTIMATE POWER</span> <br>
+                    AT KROSS 9 GYM
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                    Step inside Cooch Behar's premier strength, hypertrophy & conditioning sanctuary. 
+                    Heavy iron, Olympic racks, dedicated lockers, modern cardio theater, and certified coaches committed to your physical transformation.
+                </p>
+
+                <!-- Value Props Pills -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs font-semibold text-slate-300 pt-2">
+                    <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-kross-card/80 border border-kross-border">
+                        <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Free Weights up to 50kg
+                    </span>
+                    <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-kross-card/80 border border-kross-border">
+                        <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Secure Private Lockers
+                    </span>
+                    <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-kross-card/80 border border-kross-border">
+                        <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Open Mon-Sat 6 AM–10 PM
+                    </span>
+                    <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-kross-card/80 border border-kross-border">
+                        <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Certified Personal Trainers
+                    </span>
+                </div>
+
+                <!-- Main CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#free-pass" class="w-full sm:w-auto px-8 py-4 rounded-xl font-heading text-lg font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 via-orange-600 to-amber-500 hover:from-red-500 hover:to-orange-400 shadow-xl shadow-orange-500/25 transition-all hover:scale-105 flex items-center justify-center gap-3">
+                        <i data-lucide="ticket" class="w-5 h-5"></i>
+                        <span>Claim 1-Day Free Trial</span>
+                    </a>
+                    <a href="#pricing" class="w-full sm:w-auto px-7 py-4 rounded-xl font-heading text-lg font-bold uppercase tracking-wider text-slate-200 bg-kross-card hover:bg-slate-800 border border-kross-border transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="credit-card" class="w-5 h-5 text-orange-400"></i>
+                        <span>Explore Plans</span>
+                    </a>
+                    <a href="https://wa.me/{{ gym_phone_raw }}?text=Hi%20Kross%209%20Gym!%20I%20would%20like%20to%20know%20more%20about%20gym%20membership." target="_blank" class="w-full sm:w-auto px-5 py-4 rounded-xl font-heading text-lg font-bold uppercase tracking-wider text-green-400 bg-kross-card hover:bg-green-950/40 border border-green-500/30 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                </div>
+
+                <!-- Gym Quick Details Bar -->
+                <div class="pt-6 border-t border-kross-border/60 flex flex-col sm:flex-row items-center gap-6 text-xs text-slate-400 justify-center lg:justify-start">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-orange-500"></i>
+                        <span>Bakultala More, Debibari Road, Cooch Behar</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="phone" class="w-4 h-4 text-orange-500"></i>
+                        <span>{{ gym_phone }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Highlight Card & Live Status -->
+            <div class="lg:col-span-5">
+                <div class="glass-card rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-2xl border border-kross-border">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-orange-500/10 rounded-full blur-2xl"></div>
+
+                    <!-- Header -->
+                    <div class="flex items-center justify-between pb-6 border-b border-kross-border">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 border border-orange-500/30 flex items-center justify-center">
+                                <i data-lucide="dumbbell" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider">Facility Pulse</h3>
+                                <p class="text-xs text-slate-400">Live Kross 9 Environment</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Active Floor
+                        </span>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-2 gap-4 py-6">
+                        <div class="p-4 rounded-xl bg-kross-dark/80 border border-kross-border">
+                            <div class="text-xs text-slate-400 mb-1 flex items-center gap-1.5">
+                                <i data-lucide="users" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Active Members
+                            </div>
+                            <div class="font-heading text-3xl font-bold text-white">500+</div>
+                            <div class="text-[11px] text-emerald-400 mt-0.5">Growing community</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-kross-dark/80 border border-kross-border">
+                            <div class="text-xs text-slate-400 mb-1 flex items-center gap-1.5">
+                                <i data-lucide="box" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Locker Bays
+                            </div>
+                            <div class="font-heading text-3xl font-bold text-white">30 Units</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">Automated expiry alerts</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-kross-dark/80 border border-kross-border">
+                            <div class="text-xs text-slate-400 mb-1 flex items-center gap-1.5">
+                                <i data-lucide="award" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Certified Coaches
+                            </div>
+                            <div class="font-heading text-3xl font-bold text-white">15+</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">Strength & Nutrition</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-kross-dark/80 border border-kross-border">
+                            <div class="text-xs text-slate-400 mb-1 flex items-center gap-1.5">
+                                <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Daily Access
+                            </div>
+                            <div class="font-heading text-3xl font-bold text-white">16 Hrs</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">6:00 AM – 10:00 PM</div>
+                        </div>
+                    </div>
+
+                    <!-- Fast Quick Link to Pass -->
+                    <div class="pt-4 border-t border-kross-border">
+                        <a href="#free-pass" class="w-full py-3 px-4 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider flex items-center justify-between transition-colors">
+                            <span class="flex items-center gap-2">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                New to Kross 9? Try 1 Workout Session Free
+                            </span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ABOUT & EXPERIENCE SECTION -->
+<section id="about" class="py-20 bg-kross-dark border-t border-b border-kross-border relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-6 space-y-6">
+                <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                    <i data-lucide="flame" class="w-4 h-4"></i>
+                    The Kross 9 Standard
+                </div>
+                <h2 class="font-heading text-3xl sm:text-5xl font-black uppercase text-white leading-tight">
+                    BUILT FOR REAL RESULTS, <br>
+                    NOT COMPLACENCY.
+                </h2>
+                <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
+                    Located centrally at <strong>Bakultala More, Debibari Road, Cooch Behar</strong>, Kross 9 Gym was engineered with one goal: 
+                    providing an uncompromising, high-energy environment where beginner fitness enthusiasts and advanced powerlifters alike break their limits.
+                </p>
+                <p class="text-slate-400 leading-relaxed text-sm">
+                    We maintain an obsessive focus on heavy-duty biomechanics, spotless hygiene, certified guidance, and modern management automations — 
+                    from locker assignments to subscription tracking so you never skip a beat.
+                </p>
+
+                <!-- Core Pillars -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border">
+                        <i data-lucide="zap" class="w-6 h-6 text-orange-400 mb-2"></i>
+                        <h4 class="font-heading text-lg font-bold text-white uppercase">High Energy Vibe</h4>
+                        <p class="text-xs text-slate-400 mt-1">Motivating acoustics, optimal lighting, and a focused gym culture without distractions.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-red-400 mb-2"></i>
+                        <h4 class="font-heading text-lg font-bold text-white uppercase">Hygienic & Safe</h4>
+                        <p class="text-xs text-slate-400 mt-1">Regular equipment sanitization, clean changing rooms, showers, and filtered water.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border">
+                        <i data-lucide="key" class="w-6 h-6 text-amber-400 mb-2"></i>
+                        <h4 class="font-heading text-lg font-bold text-white uppercase">Dedicated Lockers</h4>
+                        <p class="text-xs text-slate-400 mt-1">30 private numbered lockers with automated WhatsApp expiry reminders for complete peace of mind.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border">
+                        <i data-lucide="heart-pulse" class="w-6 h-6 text-emerald-400 mb-2"></i>
+                        <h4 class="font-heading text-lg font-bold text-white uppercase">Diet & Guidance</h4>
+                        <p class="text-xs text-slate-400 mt-1">Customized macro nutrition splits and training regimens tailored to your body type.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual Elements -->
+            <div class="lg:col-span-6 space-y-4">
+                <div class="p-6 rounded-2xl bg-kross-card border border-kross-border relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-orange-400">Gym Location Specs</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-300">Cooch Behar &bull; 736101</span>
+                    </div>
+                    <div class="space-y-3 text-sm text-slate-300">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-red-500 shrink-0 mt-0.5"></i>
+                            <div>
+                                <span class="font-semibold text-white">Full Address:</span>
+                                <p class="text-xs text-slate-400 mt-0.5">{{ gym_address }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="clock" class="w-5 h-5 text-orange-400 shrink-0"></i>
+                            <div>
+                                <span class="font-semibold text-white">Operating Hours:</span>
+                                <span class="text-xs text-slate-400 ml-1">Monday – Saturday: 6:00 AM – 10:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="phone-call" class="w-5 h-5 text-green-400 shrink-0"></i>
+                            <div>
+                                <span class="font-semibold text-white">Direct Desk:</span>
+                                <a href="tel:{{ gym_phone_raw }}" class="text-xs text-orange-400 font-semibold ml-1 hover:underline">{{ gym_phone }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Automated Notifications Preview Card -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-kross-card via-kross-dark to-kross-card border border-orange-500/30">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center">
+                            <i data-lucide="bell" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading text-sm font-bold text-white uppercase">Automated Member Care</h4>
+                            <p class="text-[11px] text-slate-400">Intelligent alerts via WhatsApp & SMS</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 rounded-lg bg-black/40 border border-slate-800 text-slate-300 flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Subscription Expiry Reminders (3d & 1d notice)
+                            </span>
+                            <span class="text-[10px] text-green-400 font-semibold">Active</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-black/40 border border-slate-800 text-slate-300 flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <i data-lucide="lock" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Locker Expiration & Clearance Warnings
+                            </span>
+                            <span class="text-[10px] text-green-400 font-semibold">Active</span>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-black/40 border border-slate-800 text-slate-300 flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <i data-lucide="message-square" class="w-3.5 h-3.5 text-orange-400"></i>
+                                Instant WhatsApp Renewal Links
+                            </span>
+                            <span class="text-[10px] text-green-400 font-semibold">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- FACILITIES & EQUIPMENT SECTION -->
+<section id="facilities" class="py-24 bg-kross-black relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+                World-Class Gym Infrastructure
+            </div>
+            <h2 class="font-heading text-3xl sm:text-5xl font-black uppercase text-white">
+                HEAVY IRON. PRECISION MACHINES.
+            </h2>
+            <p class="text-sm sm:text-base text-slate-400">
+                Designed to eliminate bottlenecks, keep lines short, and maximize output with premium gym apparatus.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Facility 1 -->
+            <div class="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1.5 duration-300">
+                <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center mb-5">
+                    <i data-lucide="dumbbell" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white uppercase mb-2">Free Weights & Power Zone</h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                    Extensive dumbbell tier running up to 50 kg, multiple Olympic barbells, competition squat racks, flat/incline benches, and heavy-duty deadlift drop zones.
+                </p>
+                <div class="flex flex-wrap gap-2 text-[11px] text-slate-300">
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">50kg Max DBs</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Olympic Racks</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Bumper Plates</span>
+                </div>
+            </div>
+
+            <!-- Facility 2 -->
+            <div class="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1.5 duration-300">
+                <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 flex items-center justify-center mb-5">
+                    <i data-lucide="cpu" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white uppercase mb-2">Plate-Loaded & Selectorized</h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                    Biomechanical machines including 45° leg press, hack squat, lat pulldowns, seated cable rows, dual cable crossover tower, and pec deck.
+                </p>
+                <div class="flex flex-wrap gap-2 text-[11px] text-slate-300">
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Leg Press</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Cable Crossover</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Hack Squat</span>
+                </div>
+            </div>
+
+            <!-- Facility 3 -->
+            <div class="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1.5 duration-300">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-5">
+                    <i data-lucide="flame" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white uppercase mb-2">Cardio & HIIT Theater</h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                    Commercial grade motorized incline treadmills, cross-trainers, assault air bikes, and rowing machines for heart conditioning and metabolic fat burn.
+                </p>
+                <div class="flex flex-wrap gap-2 text-[11px] text-slate-300">
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Incline Treadmills</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Air Bikes</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Rowers</span>
+                </div>
+            </div>
+
+            <!-- Facility 4 -->
+            <div class="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1.5 duration-300">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-5">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white uppercase mb-2">CrossFit & Functional Turf</h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                    A dedicated athletic turf strip equipped with battle ropes, heavy medicine balls, kettlebells, gymnastic rings, and plyometric jump boxes.
+                </p>
+                <div class="flex flex-wrap gap-2 text-[11px] text-slate-300">
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Battle Ropes</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Plyo Boxes</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Turf Track</span>
+                </div>
+            </div>
+
+            <!-- Facility 5 -->
+            <div class="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1.5 duration-300 border-orange-500/30">
+                <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 flex items-center justify-center mb-5">
+                    <i data-lucide="lock" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white uppercase mb-2">Dedicated Private Lockers</h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                    Secure 30-locker storage bay. Store your workout gear, shoes, and supplements safely. Includes automatic notification alerts before your locker rental ends.
+                </p>
+                <div class="flex flex-wrap gap-2 text-[11px] text-slate-300">
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">30 Lockers</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Secure Access</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">SMS/WA Alerts</span>
+                </div>
+            </div>
+
+            <!-- Facility 6 -->
+            <div class="glass-card rounded-2xl p-6 transition-all hover:-translate-y-1.5 duration-300">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-5">
+                    <i data-lucide="bath" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white uppercase mb-2">Changing & Recovery Area</h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                    Clean, sanitized washrooms, showers with hot water, full-length dressing mirrors, and post-workout nutritional shake counter.
+                </p>
+                <div class="flex flex-wrap gap-2 text-[11px] text-slate-300">
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Clean Showers</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Changing Rooms</span>
+                    <span class="px-2 py-1 rounded bg-kross-dark border border-kross-border">Filtered Water</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- MEMBERSHIP PLANS & PRICING -->
+<section id="pricing" class="py-24 bg-kross-dark border-t border-b border-kross-border relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                <i data-lucide="tag" class="w-4 h-4"></i>
+                Transparent Pricing
+            </div>
+            <h2 class="font-heading text-3xl sm:text-5xl font-black uppercase text-white">
+                MEMBERSHIP PACKAGES
+            </h2>
+            <p class="text-sm sm:text-base text-slate-400">
+                No hidden costs. Full access to gym floor, cardio, functional zone, and automated locker privileges.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            
+            <!-- Plan 1: Monthly -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border border-kross-border">
+                <div>
+                    <h3 class="font-heading text-xl font-bold text-white uppercase">Monthly Kickstart</h3>
+                    <p class="text-xs text-slate-400 mt-1">Ideal for short-term fitness routines</p>
+                    <div class="my-6">
+                        <span class="font-heading text-4xl font-extrabold text-white">₹1,499</span>
+                        <span class="text-xs text-slate-400 font-medium">/ month</span>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Full Gym & Cardio Access
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Baseline Fitness Assessment
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> General Floor Coaching
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-500">
+                            <i data-lucide="minus" class="w-4 h-4"></i> Locker Available at ₹400/mo
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6">
+                    <button onclick="inquirePlan('Monthly Kickstart', '1499')" class="w-full py-3 rounded-xl font-heading text-sm font-bold uppercase tracking-wider text-slate-200 bg-kross-card hover:bg-slate-800 border border-kross-border transition-colors">
+                        Join Monthly
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plan 2: Quarterly (Most Popular) -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-2 border-orange-500 relative glow-orange">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white font-heading text-xs font-bold uppercase tracking-wider shadow-lg">
+                    Most Popular
+                </div>
+                <div>
+                    <h3 class="font-heading text-xl font-bold text-white uppercase">Quarterly Pro</h3>
+                    <p class="text-xs text-slate-400 mt-1">3 Months dedicated transformation</p>
+                    <div class="my-6">
+                        <span class="font-heading text-4xl font-extrabold text-white">₹3,999</span>
+                        <span class="text-xs text-slate-400 font-medium">/ 3 months</span>
+                        <div class="text-[11px] text-emerald-400 font-semibold mt-1">Save ₹500 &bull; ₹1,333/mo</div>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Full Gym & Cardio Floor Access
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Customized Workout Split
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> 1 Month Free Locker Included
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Automated Expiry Alerts
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6">
+                    <button onclick="inquirePlan('Quarterly Pro', '3999')" class="w-full py-3 rounded-xl font-heading text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 shadow-lg shadow-orange-500/25 transition-all">
+                        Join Quarterly
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plan 3: Half-Yearly -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border border-kross-border">
+                <div>
+                    <h3 class="font-heading text-xl font-bold text-white uppercase">Half-Yearly Elite</h3>
+                    <p class="text-xs text-slate-400 mt-1">6 Months sustainable habit building</p>
+                    <div class="my-6">
+                        <span class="font-heading text-4xl font-extrabold text-white">₹6,999</span>
+                        <span class="text-xs text-slate-400 font-medium">/ 6 months</span>
+                        <div class="text-[11px] text-emerald-400 font-semibold mt-1">Save ₹2,000 &bull; ₹1,166/mo</div>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Unlimited Floor & Functional Area
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Dedicated Locker Included
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> 2 Free 1-on-1 PT Sessions
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-orange-400"></i> Monthly Body Composition Check
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6">
+                    <button onclick="inquirePlan('Half-Yearly Elite', '6999')" class="w-full py-3 rounded-xl font-heading text-sm font-bold uppercase tracking-wider text-slate-200 bg-kross-card hover:bg-slate-800 border border-kross-border transition-colors">
+                        Join 6-Months
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plan 4: Annual -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border border-amber-500/40 bg-gradient-to-b from-kross-card to-amber-950/20">
+                <div>
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1">Best Value Overall</div>
+                    <h3 class="font-heading text-xl font-bold text-white uppercase">Annual Champion</h3>
+                    <p class="text-xs text-slate-400 mt-1">Full 12 Months complete lifestyle</p>
+                    <div class="my-6">
+                        <span class="font-heading text-4xl font-extrabold text-white">₹11,999</span>
+                        <span class="text-xs text-slate-400 font-medium">/ year</span>
+                        <div class="text-[11px] text-emerald-400 font-semibold mt-1">Only ₹999/mo &bull; Save ₹6,000</div>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-amber-400"></i> 365 Days Unrestricted Access
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-amber-400"></i> <strong>Free Dedicated Locker 1 Year</strong>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-amber-400"></i> Complete Custom Diet Blueprint
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-amber-400"></i> Kross 9 Official Workout Tee
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6">
+                    <button onclick="inquirePlan('Annual Champion', '11999')" class="w-full py-3 rounded-xl font-heading text-sm font-bold uppercase tracking-wider text-black bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-300 hover:to-orange-300 transition-all font-black">
+                        Claim Champion Plan
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add-on note -->
+        <div class="mt-10 p-4 rounded-xl bg-kross-card/60 border border-kross-border text-center text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <span class="flex items-center gap-2 font-semibold text-slate-300">
+                <i data-lucide="box" class="w-4 h-4 text-orange-400"></i> Standalone Locker Rental: ₹400 / Month
+            </span>
+            <span class="text-slate-600 hidden sm:inline">&bull;</span>
+            <span class="flex items-center gap-2 font-semibold text-slate-300">
+                <i data-lucide="user-check" class="w-4 h-4 text-orange-400"></i> 1-on-1 Personal Training Add-on: ₹3,000 / Month
+            </span>
+            <span class="text-slate-600 hidden sm:inline">&bull;</span>
+            <span>All members receive automatic WhatsApp reminders before expiration.</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- INTERACTIVE FITNESS TOOLS: BMI & CALORIE CALCULATOR -->
+<section id="calculator" class="py-24 bg-kross-black relative">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+            <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                <i data-lucide="calculator" class="w-4 h-4"></i>
+                Interactive Assessment Tool
+            </div>
+            <h2 class="font-heading text-3xl sm:text-4xl font-black uppercase text-white">
+                BMI & DAILY CALORIE TARGET CALCULATOR
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-400">
+                Determine your metabolic baseline and customized nutrition targets before stepping on the gym floor.
+            </p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 sm:p-10 border border-kross-border">
+            <form id="bmiCalculatorForm" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Weight -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Body Weight (kg)</label>
+                    <input type="number" id="calcWeight" required min="30" max="250" step="0.5" placeholder="e.g. 72" class="w-full px-4 py-3 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                </div>
+
+                <!-- Height -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Height (cm)</label>
+                    <input type="number" id="calcHeight" required min="100" max="230" placeholder="e.g. 175" class="w-full px-4 py-3 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Age (Years)</label>
+                    <input type="number" id="calcAge" required min="14" max="90" placeholder="e.g. 24" class="w-full px-4 py-3 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                </div>
+
+                <!-- Gender -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Gender</label>
+                    <select id="calcGender" class="w-full px-4 py-3 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <!-- Activity Level -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Gym Activity Level</label>
+                    <select id="calcActivity" class="w-full px-4 py-3 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        <option value="1.2">Sedentary (Desk job, no training)</option>
+                        <option value="1.375" selected>Light Training (2-3 days / week)</option>
+                        <option value="1.55">Moderate Training (4-5 days / week)</option>
+                        <option value="1.725">Heavy Training (6-7 days / week)</option>
+                    </select>
+                </div>
+
+                <!-- Goal -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Primary Fitness Goal</label>
+                    <select id="calcGoal" class="w-full px-4 py-3 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        <option value="fat_loss">Fat Loss & Muscle Definition (-500 kcal)</option>
+                        <option value="muscle_gain">Muscle Hypertrophy & Bulking (+350 kcal)</option>
+                        <option value="maintain">Maintenance & Athletic Performance</option>
+                    </select>
+                </div>
+
+                <div class="sm:col-span-2 md:col-span-3 pt-2">
+                    <button type="submit" class="w-full py-3.5 rounded-xl font-heading text-base font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 shadow-lg shadow-orange-500/25 transition-all">
+                        Calculate Target Nutrition & Recommended Split
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Display Area -->
+            <div id="bmiResultBox" class="hidden mt-8 pt-8 border-t border-kross-border/80">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 rounded-xl bg-kross-dark border border-kross-border">
+                        <span class="text-xs text-slate-400 block mb-1">Body Mass Index (BMI)</span>
+                        <span id="resBmiValue" class="font-heading text-3xl font-extrabold text-white">--</span>
+                        <div class="mt-2">
+                            <span id="resBmiCategory" class="text-xs px-2 py-0.5 rounded font-bold">--</span>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-kross-dark border border-kross-border">
+                        <span class="text-xs text-slate-400 block mb-1">Target Daily Energy</span>
+                        <span id="resCalories" class="font-heading text-3xl font-extrabold text-orange-400">--</span>
+                        <div class="text-[11px] text-slate-400 mt-2">Adjusted for your goal</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-kross-dark border border-kross-border">
+                        <span class="text-xs text-slate-400 block mb-1">Daily Protein Target</span>
+                        <span id="resProtein" class="font-heading text-3xl font-extrabold text-amber-400">--</span>
+                        <div class="text-[11px] text-slate-400 mt-2">1.8g / kg for muscle synthesis</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-kross-dark border border-kross-border">
+                        <span class="text-xs text-slate-400 block mb-1">Strategy Summary</span>
+                        <p id="resGoalDesc" class="text-xs text-slate-300 font-medium mt-1 leading-snug">--</p>
+                        <a href="#free-pass" class="inline-block mt-2 text-[11px] text-orange-400 font-bold underline">Start at Kross 9 &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- FREE 1-DAY TRIAL PASS GENERATOR -->
+<section id="free-pass" class="py-24 bg-kross-dark border-t border-b border-kross-border relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="glass-card rounded-3xl p-8 sm:p-12 border border-orange-500/40 relative glow-orange">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <div class="lg:col-span-6 space-y-4">
+                    <span class="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/40 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
+                        <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+                        Zero Cost &bull; Instant Pass
+                    </span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-black uppercase text-white leading-tight">
+                        CLAIM YOUR 1-DAY FREE TRIAL PASS
+                    </h2>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Experience the raw energy of Kross 9 Gym in Cooch Behar before committing. 
+                        Fill in your name and phone to generate your personalized digital gym pass code immediately.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-orange-400"></i> Free workout session on all equipment</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-orange-400"></i> Locker facility provided for trial period</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-orange-400"></i> Certified trainer walkthrough & form check</li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <form id="trialPassForm" class="space-y-4 bg-kross-black/70 p-6 rounded-2xl border border-kross-border">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Full Name</label>
+                            <input type="text" id="passName" required placeholder="e.g. Amitava Das" class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Phone Number (WhatsApp)</label>
+                            <input type="tel" id="passPhone" required placeholder="e.g. 9832012345" class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Email (Optional)</label>
+                            <input type="email" id="passEmail" placeholder="e.g. amitava@gmail.com" class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Preferred Workout Date</label>
+                            <input type="date" id="passDate" required class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        </div>
+                        <button type="submit" class="w-full py-3.5 rounded-xl font-heading text-base font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 via-orange-600 to-amber-500 hover:from-red-500 hover:to-orange-400 shadow-xl shadow-orange-500/25 transition-all">
+                            Generate My Digital Pass Now
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- SCHEDULE & FLOOR TIMINGS -->
+<section id="schedule" class="py-24 bg-kross-black relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-2">
+            <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+                Floor Timetable
+            </div>
+            <h2 class="font-heading text-3xl sm:text-5xl font-black uppercase text-white">
+                TRAINING HOURS & BATCHES
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-400">
+                Operating 16 hours daily to accommodate students, working professionals, and early lifters.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Morning Shift -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 border border-kross-border">
+                <div class="flex items-center justify-between pb-4 border-b border-kross-border mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                            <i data-lucide="sun" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-xl font-bold text-white uppercase">Morning Shift</h3>
+                            <p class="text-xs text-slate-400">Fast-paced, high energy start</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                        06:00 AM – 11:30 AM
+                    </span>
+                </div>
+
+                <div class="space-y-4 text-xs text-slate-300">
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-kross-dark border border-kross-border">
+                        <div>
+                            <span class="font-bold text-white block">06:00 AM – 07:30 AM</span>
+                            <span class="text-slate-400">Early Birds & Cardio Awakening</span>
+                        </div>
+                        <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Low Crowded</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-kross-dark border border-kross-border">
+                        <div>
+                            <span class="font-bold text-white block">07:30 AM – 09:30 AM</span>
+                            <span class="text-slate-400">Prime Strength & Hypertrophy Hour</span>
+                        </div>
+                        <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">Moderate</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-kross-dark border border-kross-border">
+                        <div>
+                            <span class="font-bold text-white block">09:30 AM – 11:30 AM</span>
+                            <span class="text-slate-400">Functional CrossFit & Form Correction</span>
+                        </div>
+                        <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Low Crowded</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evening Shift -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 border border-kross-border">
+                <div class="flex items-center justify-between pb-4 border-b border-kross-border mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center">
+                            <i data-lucide="moon" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-xl font-bold text-white uppercase">Evening Shift</h3>
+                            <p class="text-xs text-slate-400">Peak power & heavy iron atmosphere</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                        04:30 PM – 10:00 PM
+                    </span>
+                </div>
+
+                <div class="space-y-4 text-xs text-slate-300">
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-kross-dark border border-kross-border">
+                        <div>
+                            <span class="font-bold text-white block">04:30 PM – 06:00 PM</span>
+                            <span class="text-slate-400">Student & Functional Training Slot</span>
+                        </div>
+                        <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Low Crowded</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-kross-dark border border-kross-border">
+                        <div>
+                            <span class="font-bold text-white block">06:00 PM – 08:30 PM</span>
+                            <span class="text-slate-400">Prime Peak Session (Heavy Lifting & HIIT)</span>
+                        </div>
+                        <span class="text-[11px] px-2 py-0.5 rounded bg-red-500/20 text-red-400">High Energy Peak</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-kross-dark border border-kross-border">
+                        <div>
+                            <span class="font-bold text-white block">08:30 PM – 10:00 PM</span>
+                            <span class="text-slate-400">Late Night Strength & Cooldown</span>
+                        </div>
+                        <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">Moderate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- TESTIMONIALS & REVIEWS -->
+<section class="py-20 bg-kross-dark border-t border-b border-kross-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-2">
+            <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                <i data-lucide="star" class="w-4 h-4 fill-orange-500 text-orange-500"></i>
+                Google Reviews Verified
+            </div>
+            <h2 class="font-heading text-3xl sm:text-4xl font-black uppercase text-white">
+                HEAR FROM OUR COOCH BEHAR ATHLETES
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Review 1 -->
+            <div class="glass-card rounded-2xl p-6 border border-kross-border">
+                <div class="flex items-center gap-1 text-amber-400 mb-3">
+                    ★★★★★
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4 italic">
+                    "Best gym in Cooch Behar by a mile! The equipment is genuinely top grade and always well-oiled. The trainers are super supportive and correct your deadlift and squat form rather than just sitting at the desk."
+                </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-orange-600 flex items-center justify-center font-bold text-white text-xs">
+                        RR
+                    </div>
+                    <div>
+                        <span class="font-heading text-sm font-bold text-white block">Rahul Roy</span>
+                        <span class="text-[11px] text-slate-400">Member since 8 months &bull; Powerlifter</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="glass-card rounded-2xl p-6 border border-kross-border">
+                <div class="flex items-center gap-1 text-amber-400 mb-3">
+                    ★★★★★
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4 italic">
+                    "I love the dedicated locker facility. Being able to leave my shoes and belt in my locker and receive WhatsApp reminders before subscription or locker renewal is so convenient. Very safe for women too!"
+                </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center font-bold text-white text-xs">
+                        PS
+                    </div>
+                    <div>
+                        <span class="font-heading text-sm font-bold text-white block">Priya Sen</span>
+                        <span class="text-[11px] text-slate-400">Quarterly Pro Member &bull; Morning Batch</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="glass-card rounded-2xl p-6 border border-kross-border">
+                <div class="flex items-center gap-1 text-amber-400 mb-3">
+                    ★★★★★
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4 italic">
+                    "Great vibe, friendly atmosphere, and spacious floor near Bakultala More. Dropped 8 kgs in 3 months with their high-protein diet advice and HIIT routines. Worth every rupee."
+                </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-amber-600 flex items-center justify-center font-bold text-white text-xs">
+                        AG
+                    </div>
+                    <div>
+                        <span class="font-heading text-sm font-bold text-white block">Aniket Ghosh</span>
+                        <span class="text-[11px] text-slate-400">Member &bull; Fat Loss Transformation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- LOCATION, MAP & CONTACT FORM -->
+<section id="contact" class="py-24 bg-kross-black relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <!-- Left Info & Map Button -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-orange-500 uppercase">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                    Visit Our Facility
+                </div>
+                <h2 class="font-heading text-3xl sm:text-5xl font-black uppercase text-white">
+                    FIND US IN COOCH BEHAR
+                </h2>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Drop by anytime during operating hours for a tour of our training zones, locker rooms, and an in-person body composition assessment.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border flex items-start gap-3">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-red-500 shrink-0 mt-0.5"></i>
+                        <div>
+                            <span class="font-semibold text-white text-sm block">Address</span>
+                            <p class="text-xs text-slate-400 mt-0.5">{{ gym_address }}</p>
+                            <a href="{{ gym_map_url }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-orange-400 font-bold hover:underline mt-2">
+                                Open Google Maps Directions &rarr;
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border flex items-center gap-3">
+                        <i data-lucide="phone" class="w-5 h-5 text-orange-500 shrink-0"></i>
+                        <div>
+                            <span class="font-semibold text-white text-sm block">Call Us</span>
+                            <a href="tel:{{ gym_phone_raw }}" class="text-xs text-slate-300 hover:text-white font-semibold">{{ gym_phone }}</a>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-kross-card border border-kross-border flex items-center gap-3">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-green-500 shrink-0"></i>
+                        <div>
+                            <span class="font-semibold text-white text-sm block">Instant WhatsApp Chat</span>
+                            <a href="https://wa.me/{{ gym_phone_raw }}" target="_blank" class="text-xs text-green-400 font-semibold hover:underline">Chat with Reception Desk</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Contact Form -->
+            <div class="lg:col-span-7">
+                <div class="glass-card rounded-3xl p-8 sm:p-10 border border-kross-border">
+                    <h3 class="font-heading text-2xl font-bold uppercase text-white mb-2">Send an Inquiry or Callback Request</h3>
+                    <p class="text-xs text-slate-400 mb-6">Our gym manager will call you back within 2 business hours.</p>
+
+                    <form id="contactForm" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Your Name</label>
+                                <input type="text" id="contactName" required placeholder="e.g. Subhadeep Roy" class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Phone Number</label>
+                                <input type="tel" id="contactPhone" required placeholder="e.g. 9832012345" class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
+                            <input type="email" id="contactEmail" placeholder="e.g. subhadeep@gmail.com" class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Your Message / Training Goals</label>
+                            <textarea id="contactMessage" required rows="4" placeholder="Tell us about your fitness background, preferred batch timing, or locker inquiries..." class="w-full px-4 py-2.5 rounded-xl bg-kross-dark border border-kross-border text-white text-sm focus:outline-none focus:border-orange-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl font-heading text-base font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 via-orange-600 to-amber-500 hover:from-red-500 hover:to-orange-400 shadow-xl shadow-orange-500/25 transition-all">
+                            Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

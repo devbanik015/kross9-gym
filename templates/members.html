@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}Members Directory & CRM | Kross 9 Gym{% endblock %}
+
+{% block content %}
+<div class="bg-kross-dark min-h-screen py-10 border-b border-kross-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-kross-border">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-400">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                    Member Directory & CRM
+                </div>
+                <h1 class="font-heading text-3xl sm:text-4xl font-extrabold uppercase text-white mt-1">
+                    KROSS 9 MEMBERS
+                </h1>
+                <p class="text-xs text-slate-400 mt-0.5">Manage active memberships, locker allocations, and renewal status</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/admin" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Dashboard
+                </a>
+                <a href="/admin/lockers" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Lockers
+                </a>
+                <a href="/admin/automations" class="px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border transition-colors">
+                    Automations
+                </a>
+                <button onclick="openAddMemberModal()" class="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                    <span>Register New Member</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters & Search Toolbar -->
+        <div class="glass-card rounded-2xl p-4 border border-kross-border flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="relative w-full sm:w-80">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="memberSearchInput" onkeyup="filterMembersTable()" placeholder="Search by name, phone, locker..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-kross-dark border border-kross-border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500">
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto text-xs font-semibold">
+                <button onclick="setFilterStatus('all')" class="status-tab-btn px-3 py-1.5 rounded-lg bg-orange-600 text-white" data-status="all">All ({{ members|length }})</button>
+                <button onclick="setFilterStatus('active')" class="status-tab-btn px-3 py-1.5 rounded-lg bg-kross-card text-slate-300 border border-kross-border hover:bg-slate-800" data-status="active">Active</button>
+                <button onclick="setFilterStatus('expired')" class="status-tab-btn px-3 py-1.5 rounded-lg bg-kross-card text-slate-300 border border-kross-border hover:bg-slate-800" data-status="expired">Expired</button>
+            </div>
+        </div>
+
+        <!-- Members Table -->
+        <div class="glass-card rounded-2xl border border-kross-border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs" id="membersTable">
+                    <thead class="bg-kross-dark text-slate-400 uppercase tracking-wider border-b border-kross-border">
+                        <tr>
+                            <th class="py-3.5 px-4">Member Info</th>
+                            <th class="py-3.5 px-4">Phone / WhatsApp</th>
+                            <th class="py-3.5 px-4">Current Plan</th>
+                            <th class="py-3.5 px-4">Subscription Period</th>
+                            <th class="py-3.5 px-4">Locker Number</th>
+                            <th class="py-3.5 px-4">Status</th>
+                            <th class="py-3.5 px-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-kross-border/60">
+                        {% for m in members %}
+                        <tr class="member-row hover:bg-kross-dark/50 transition-colors" data-name="{{ m.name|lower }}" data-phone="{{ m.phone }}" data-status="{{ m.status }}" data-locker="{{ m.locker_number or '' }}">
+                            <td class="py-3.5 px-4">
+                                <span class="font-bold text-white text-sm block">{{ m.name }}</span>
+                                <span class="text-[10px] text-slate-400">#{{ m.id }} &bull; Joined: {{ m.start_date }}</span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-slate-200">
+                                <div>{{ m.phone }}</div>
+                                {% if m.email %}<div class="text-[10px] text-slate-500 font-sans">{{ m.email }}</div>{% endif %}
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="font-semibold text-white block">{{ m.plan_name }}</span>
+                                <span class="text-[11px] text-slate-400">₹{{ m.plan_amount }}</span>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-mono text-slate-300">{{ m.start_date }} &rarr; <span class="font-bold {% if m.status == 'expired' %}text-red-400{% else %}text-white{% endif %}">{{ m.end_date }}</span></div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                {% if m.locker_number %}
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 font-bold">
+                                    <i data-lucide="lock" class="w-3 h-3"></i>
+                                    <span>Locker #{{ m.locker_number }}</span>
+                                </div>
+                                <div class="text-[10px] text-slate-400 font-mono mt-0.5">Expires: {{ m.locker_end_date }}</div>
+                                {% else %}
+                                <span class="text-slate-500 italic">None assigned</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {% if m.status == 'active' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% else %}bg-red-500/20 text-red-400 border border-red-500/30{% endif %}">
+                                    {{ m.status }}
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 text-right">
+                                <div class="inline-flex items-center gap-2">
+                                    <button onclick="openQuickMessageModal({{ m.id }}, '{{ m.name }}', '{{ m.phone }}', '{{ m.plan_name }}', '{{ m.end_date }}', '{{ m.locker_number }}', '{{ m.locker_end_date }}')" title="Send WhatsApp Message" class="p-1.5 rounded-lg bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-500/30">
+                                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="openEditMemberModal({{ m|tojson }})" title="Edit or Renew" class="p-1.5 rounded-lg bg-kross-card hover:bg-slate-800 text-slate-300 border border-kross-border">
+                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="deleteMember({{ m.id }}, '{{ m.name }}')" title="Delete Member" class="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Add Member Modal -->
+<div id="addMemberModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full rounded-2xl p-6 border border-kross-border bg-kross-dark space-y-4">
+        <div class="flex items-center justify-between border-b border-kross-border pb-3">
+            <h3 class="font-heading text-lg font-bold uppercase text-white flex items-center gap-2">
+                <i data-lucide="user-plus" class="w-5 h-5 text-orange-500"></i>
+                Register New Gym Member
+            </h3>
+            <button onclick="closeAddMemberModal()" class="text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form id="addMemberForm" onsubmit="submitNewMember(event)" class="space-y-3 text-xs">
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Full Name *</label>
+                    <input type="text" id="addName" required placeholder="Member name" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs focus:border-orange-500">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Phone Number (10 digits) *</label>
+                    <input type="tel" id="addPhone" required placeholder="e.g. 9832014560" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs focus:border-orange-500">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-slate-300 font-semibold mb-1">Email Address (Optional)</label>
+                <input type="email" id="addEmail" placeholder="member@gmail.com" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs focus:border-orange-500">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Membership Plan</label>
+                    <select id="addPlan" onchange="autoFillPlanDates()" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                        <option value="Monthly Kickstart" data-amount="1499" data-months="1">Monthly Kickstart (₹1,499)</option>
+                        <option value="Quarterly Pro" data-amount="3999" data-months="3" selected>Quarterly Pro (₹3,999)</option>
+                        <option value="Half-Yearly Elite" data-amount="6999" data-months="6">Half-Yearly Elite (₹6,999)</option>
+                        <option value="Annual Champion" data-amount="11999" data-months="12">Annual Champion (₹11,999)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Fee Amount (₹)</label>
+                    <input type="number" id="addAmount" value="3999" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Start Date *</label>
+                    <input type="date" id="addStartDate" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">End Date *</label>
+                    <input type="date" id="addEndDate" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+            </div>
+
+            <!-- Optional Locker -->
+            <div class="p-3 rounded-xl bg-kross-black border border-kross-border space-y-2">
+                <span class="text-orange-400 font-semibold block">Optional Locker Bay Assignment</span>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 text-[11px] mb-1">Available Locker #</label>
+                        <select id="addLockerNum" class="w-full px-3 py-2 rounded-xl bg-kross-dark border border-kross-border text-white text-xs">
+                            <option value="">No Locker</option>
+                            {% for l in available_lockers %}
+                            <option value="{{ l }}">Locker #{{ l }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 text-[11px] mb-1">Locker End Date</label>
+                        <input type="date" id="addLockerEndDate" class="w-full px-3 py-2 rounded-xl bg-kross-dark border border-kross-border text-white text-xs">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-slate-300 font-semibold mb-1">Emergency Contact / Notes</label>
+                <input type="text" id="addNotes" placeholder="e.g. 9832014561 (Brother), Morning 7-8 AM" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="w-full py-3 rounded-xl font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 shadow-lg shadow-orange-500/25 transition-all">
+                    Register & Trigger Welcome WhatsApp Alert
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Member Modal -->
+<div id="editMemberModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full rounded-2xl p-6 border border-kross-border bg-kross-dark space-y-4">
+        <div class="flex items-center justify-between border-b border-kross-border pb-3">
+            <h3 class="font-heading text-lg font-bold uppercase text-white flex items-center gap-2">
+                <i data-lucide="edit-3" class="w-5 h-5 text-orange-500"></i>
+                Edit / Renew Member
+            </h3>
+            <button onclick="closeEditMemberModal()" class="text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form id="editMemberForm" onsubmit="submitEditMember(event)" class="space-y-3 text-xs">
+            <input type="hidden" id="editMemberId">
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Full Name</label>
+                    <input type="text" id="editName" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Phone Number</label>
+                    <input type="tel" id="editPhone" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Plan</label>
+                    <select id="editPlan" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                        <option value="Monthly Kickstart">Monthly Kickstart (₹1,499)</option>
+                        <option value="Quarterly Pro">Quarterly Pro (₹3,999)</option>
+                        <option value="Half-Yearly Elite">Half-Yearly Elite (₹6,999)</option>
+                        <option value="Annual Champion">Annual Champion (₹11,999)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Status</label>
+                    <select id="editStatus" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                        <option value="active">Active</option>
+                        <option value="expired">Expired</option>
+                        <option value="paused">Paused</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Subscription Start</label>
+                    <input type="date" id="editStartDate" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Subscription End</label>
+                    <input type="date" id="editEndDate" required class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Locker #</label>
+                    <input type="number" id="editLockerNum" placeholder="e.g. 5" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Locker End Date</label>
+                    <input type="date" id="editLockerEndDate" class="w-full px-3 py-2 rounded-xl bg-kross-black border border-kross-border text-white text-xs">
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="w-full py-3 rounded-xl font-bold uppercase tracking-wider text-white bg-orange-600 hover:bg-orange-500 transition-colors">
+                    Save Changes & Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include "components/quick_message_modal.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Set default dates for add member
+        const today = new Date().toISOString().split('T')[0];
+        const addStartDate = document.getElementById('addStartDate');
+        if (addStartDate) addStartDate.value = today;
+        autoFillPlanDates();
+    });
+
+    function autoFillPlanDates() {
+        const planSelect = document.getElementById('addPlan');
+        if (!planSelect) return;
+        const opt = planSelect.selectedOptions[0];
+        const months = parseInt(opt.getAttribute('data-months') || '1');
+        const amount = opt.getAttribute('data-amount') || '1499';
+        
+        document.getElementById('addAmount').value = amount;
+
+        const start = new Date(document.getElementById('addStartDate').value || new Date());
+        const end = new Date(start);
+        end.setMonth(end.getMonth() + months);
+        document.getElementById('addEndDate').value = end.toISOString().split('T')[0];
+        document.getElementById('addLockerEndDate').value = end.toISOString().split('T')[0];
+    }
+</script>
+{% endblock %}
