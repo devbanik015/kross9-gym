@@ -37,6 +37,7 @@ credentials.json
 
 # SQLite Database files (keep fresh in repo or ignore local dev data)
 *.sqlite3
+*.db
 *.db-journal
 
 # OS files
